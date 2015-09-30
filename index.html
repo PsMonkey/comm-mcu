@@ -3,13 +3,35 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <script type="text/javascript" language="javascript" src="volleyball/volleyball.nocache.js"></script>
+<script>
+var now = 2015;
+var url = [];
+url[2015] = "https://www.youtube.com/v/uwxYnnxZj44";
+url[2013] = "https://www.youtube.com/v/UgIWkQvwhxE";
+/*
+標準的網址是 https://www.youtube.com/embed/__________
+但是這樣就不支持 autoplay，所以網路上找到的方法是改成 v 就沒問題
+姑且紀錄於此 [遠目]
+*/
+
+function change(year) {
+	year = url[year] == null ? now : year;
+	document.getElementById("youtube").src = url[year] + "&autoplay=1";
+}
+
+window.onload = function() { change(now); }
+</script>
 </head>
 
 <body>
 <table style="width: 100%; height: 100%;">
 	<tr>
-		<td style="padding: 0 0 0 20px">
-			<iframe width="640" height="360" src="https://www.youtube.com/embed/UgIWkQvwhxE" frameborder="0" allowfullscreen></iframe>
+		<td style="padding: 0 0 0 10px">
+			<a href="#" onClick="change(2015)">2015 年</a><br />
+			<a href="#" onClick="change(2013)">2013 年</a>
+		</td>
+		<td style="padding: 0 0 0 10px">
+			<iframe id="youtube" width="640" height="360" src="" frameborder="0"></iframe>
 		</td>
 		<td>
 			<iframe src="https://www.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=400&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=psmonkey.org_h3jv6o4e8q36rkgl764tflp3ek%40group.calendar.google.com&amp;color=%23B1440E&amp;ctz=Asia%2FTaipei"
@@ -17,7 +39,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td colspan="2">
+		<td colspan="3">
 			<div id="player" style="width: 800px; height: 600px; margin: 20px"></div>
 		</td>
 	</tr>
