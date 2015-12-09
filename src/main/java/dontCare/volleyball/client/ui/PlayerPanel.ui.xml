@@ -1,0 +1,19 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.sencha.gxt.widget.core.client.grid" 
+	xmlns:c="urn:import:com.sencha.gxt.widget.core.client.container" 
+	xmlns:b="urn:import:com.sencha.gxt.widget.core.client.button">
+	
+	<ui:with field="listLD" type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData">
+		<ui:attributes width="1" height="1" />
+	</ui:with>
+	
+	<c:VerticalLayoutContainer>
+		<c:HorizontalLayoutContainer>
+			<b:TextButton ui:field="add" text="新增" />
+			<b:TextButton ui:field="export" text="匯出 JSON" />
+		</c:HorizontalLayoutContainer>
+		
+		<g:Grid ui:field="list" layoutData="{listLD}" />
+	</c:VerticalLayoutContainer>
+</ui:UiBinder> 
