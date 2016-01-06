@@ -18,10 +18,6 @@ import com.sencha.gxt.data.shared.PropertyAccess;
 import com.sencha.gxt.widget.core.client.Composite;
 import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
-import com.sencha.gxt.widget.core.client.event.AddEvent;
-import com.sencha.gxt.widget.core.client.event.RemoveEvent;
-import com.sencha.gxt.widget.core.client.event.AddEvent.AddHandler;
-import com.sencha.gxt.widget.core.client.event.RemoveEvent.RemoveHandler;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
@@ -55,10 +51,11 @@ public class PlayerPanel extends Composite implements Editor<Member>{
 					PlayerEditor playerEditor = new PlayerEditor();
 					ver.add(playerEditor);
 					playerEditor.view(event.getSelectedItem());
-					
+					add.setText("取消");
 				} else {
 					PlayerEditor playerEditor = (PlayerEditor) ver.getWidget(0);
 					playerEditor.view(event.getSelectedItem());
+					add.setText("新增");
 				}
 			}
 		});
@@ -72,28 +69,16 @@ public class PlayerPanel extends Composite implements Editor<Member>{
 			}
 		});
 		DataCenter.wantMember();
-		ver.addAddHandler(new AddHandler() {
-			
-			@Override
-			public void onAdd(AddEvent event) {
-				add.setText("取消");
-			}
-		});
-		ver.addRemoveHandler(new RemoveHandler() {
-			
-			@Override
-			public void onRemove(RemoveEvent event) {
-				add.setText("新增");
-			}
-		});
 	}
 	
 	@UiHandler("add")
 	void onAdd(SelectEvent event){
 		if (ver.getWidgetCount() == 0) {
 			ver.add(new PlayerEditor());
+			add.setText("取消");
 		}else {
 			ver.remove(0);
+			add.setText("新增");
 		}
 	}
 	
