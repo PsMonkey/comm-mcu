@@ -19,10 +19,9 @@ import com.sencha.gxt.widget.core.client.Composite;
 import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.event.AddEvent;
-import com.sencha.gxt.widget.core.client.event.BeforeAddEvent;
-import com.sencha.gxt.widget.core.client.event.BeforeRemoveEvent;
-import com.sencha.gxt.widget.core.client.event.ContainerHandler;
 import com.sencha.gxt.widget.core.client.event.RemoveEvent;
+import com.sencha.gxt.widget.core.client.event.AddEvent.AddHandler;
+import com.sencha.gxt.widget.core.client.event.RemoveEvent.RemoveHandler;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
@@ -56,6 +55,7 @@ public class PlayerPanel extends Composite implements Editor<Member>{
 					PlayerEditor playerEditor = new PlayerEditor();
 					ver.add(playerEditor);
 					playerEditor.view(event.getSelectedItem());
+					
 				} else {
 					PlayerEditor playerEditor = (PlayerEditor) ver.getWidget(0);
 					playerEditor.view(event.getSelectedItem());
@@ -63,7 +63,7 @@ public class PlayerPanel extends Composite implements Editor<Member>{
 			}
 		});
 		initWidget(uiBinder.createAndBindUi(this));
-		this.setPixelSize(800, 800);
+		this.setPixelSize(800, 500);
 		DataCenter.addMemberHandler(new MemberHandler() {
 
 			@Override
@@ -72,28 +72,18 @@ public class PlayerPanel extends Composite implements Editor<Member>{
 			}
 		});
 		DataCenter.wantMember();
-		ver.addContainerHandler(new ContainerHandler() {
-
-			@Override
-			public void onRemove(RemoveEvent event) {
-				add.setText("新增");
-			}
-
-			@Override
-			public void onBeforeRemove(BeforeRemoveEvent event) {
-				// TODO Auto-generated method stub
-
-			}
-
+		ver.addAddHandler(new AddHandler() {
+			
 			@Override
 			public void onAdd(AddEvent event) {
 				add.setText("取消");
 			}
-
+		});
+		ver.addRemoveHandler(new RemoveHandler() {
+			
 			@Override
-			public void onBeforeAdd(BeforeAddEvent event) {
-				// TODO Auto-generated method stub
-
+			public void onRemove(RemoveEvent event) {
+				add.setText("新增");
 			}
 		});
 	}

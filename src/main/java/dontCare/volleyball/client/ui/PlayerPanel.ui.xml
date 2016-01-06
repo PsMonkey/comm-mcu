@@ -5,7 +5,7 @@
 	xmlns:b="urn:import:com.sencha.gxt.widget.core.client.button">
 	
 	<ui:with field="listLD" type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData">
-		<ui:attributes width="1" height="400" />
+		<ui:attributes width="1" height="1" />
 	</ui:with>
 	<ui:with field="verData" type="com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer.HorizontalLayoutData">
 		<ui:attributes height="30" />
