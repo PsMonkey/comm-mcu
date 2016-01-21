@@ -1,39 +1,90 @@
 package dontCare.volleyball.client.ui;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import com.google.gwt.aria.client.Role;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.editor.client.Editor;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.data.shared.PropertyAccess;
 import com.sencha.gxt.widget.core.client.Composite;
+import com.sencha.gxt.widget.core.client.button.TextButton;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
 
+import dontCare.volleyball.client.dao.DataCenter;
+import dontCare.volleyball.client.dao.event.MemberEvent;
+import dontCare.volleyball.client.dao.event.MemberHandler;
 import dontCare.volleyball.shared.Degree;
 import dontCare.volleyball.shared.Member;
+import dontCare.volleyball.shared.MemberImpl;
 import dontCare.volleyball.shared.Office;
+import dontCare.volleyball.shared.Role;
 
-public class PlayerPanel extends Composite {
+public class PlayerPanel extends Composite implements Editor<Member>{
 	interface PlayerEditorUiBinder extends UiBinder< Widget, PlayerPanel> {}
 	private static PlayerEditorUiBinder uiBinder = GWT.create(PlayerEditorUiBinder.class);
 	private final static MemberPA PA = GWT.create(MemberPA.class);
 
-	@UiField(provided=true) Grid<Member> list;
+	@UiField(provided=true) static Grid<Member> list;
+	@UiField VerticalLayoutContainer ver;
+	@UiField TextButton add;
 	
 	public PlayerPanel() {
-		list = new Grid<Member>(
-			new ListStore<>(PA.id()), 
-			genColumnModel()
-		);
+		list = new Grid<Member>(new ListStore<>(PA.id()), genColumnModel());
+		list.getView().setForceFit(true);
+		list.getSelectionModel().addSelectionHandler(new SelectionHandler<Member>() {
+
+			@Override
+			public void onSelection(SelectionEvent<Member> event) {
+				if (ver.getWidgetCount() == 0) {
+					PlayerEditor playerEditor = new PlayerEditor();
+					ver.add(playerEditor);
+					playerEditor.view(event.getSelectedItem());
+					add.setText("取消");
+				} else {
+					PlayerEditor playerEditor = (PlayerEditor) ver.getWidget(0);
+					playerEditor.view(event.getSelectedItem());
+				}
+			}
+		});
 		initWidget(uiBinder.createAndBindUi(this));
-		this.setPixelSize(800, 800);
+		this.setPixelSize(800, 500);
+		DataCenter.addMemberHandler(new MemberHandler() {
+
+			@Override
+			public void onMember(MemberEvent event) {
+				build(event.getData());
+			}
+		});
+		DataCenter.wantMember();
+	}
+	
+	@UiHandler("add")
+	void onAdd(SelectEvent event){
+		if (ver.getWidgetCount() == 0) {
+			ver.add(new PlayerEditor());
+			add.setText("取消");
+		}else {
+			ver.remove(0);
+			add.setText("新增");
+		}
+	}
+	
+	@UiHandler("export")
+	void onExport(SelectEvent event){
+		
 	}
 	
 	private static ColumnModel<Member> genColumnModel() {
@@ -41,11 +92,21 @@ public class PlayerPanel extends Composite {
 		list.add(new ColumnConfig<Member, String>(PA.number(), 60, "背號"));
 		list.add(new ColumnConfig<Member, String>(PA.name(), 60, "姓名"));
 		list.add(new ColumnConfig<Member, String>(PA.nickname(), 60, "暱稱"));
-		list.add(new ColumnConfig<Member, Degree>(PA.degree(), 60, ""));
+		list.add(new ColumnConfig<Member, Degree>(PA.degree(), 60, "学位"));
 		list.add(new ColumnConfig<Member, Integer>(PA.level(), 60, "級數"));
+		list.add(new ColumnConfig<Member, String>(PA.department(), 60, "系"));
+		list.add(new ColumnConfig<Member, Role>(PA.role(), 60, "位置"));
+		list.add(new ColumnConfig<Member, Office>(PA.office(), 60, "職務"));
+		list.add(new ColumnConfig<Member, Boolean>(PA.graduate(), 60, "是否毕业"));
 		return new ColumnModel<Member>(list);
 	}
 	
+	private void build(List<MemberImpl> data) {
+		for (final Member member : data) {
+			list.getStore().add(member);
+		}
+	}
+
 	interface MemberPA extends PropertyAccess<Member> {
 		ModelKeyProvider<Member> id();
 		ValueProvider<Member, String> number();

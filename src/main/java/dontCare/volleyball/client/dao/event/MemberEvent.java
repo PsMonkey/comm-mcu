@@ -3,13 +3,13 @@ package dontCare.volleyball.client.dao.event;
 import java.util.List;
 
 import dontCare.volleyball.client.dao.DataCenter.DataEvent;
-import dontCare.volleyball.shared.Member;
+import dontCare.volleyball.shared.MemberImpl;
 
 public class MemberEvent extends DataEvent< MemberHandler> {
 	public static final Type< MemberHandler> TYPE = new Type< MemberHandler>();
-	private final List<Member> data;
+	private final List<MemberImpl> data;
 	
-	public MemberEvent(List<Member> data) {
+	public MemberEvent(List<MemberImpl> data) {
 		this.data = data;
 	}
 	
@@ -23,7 +23,7 @@ public class MemberEvent extends DataEvent< MemberHandler> {
 		handler.onMember(this);
 	}
 
-	public List<Member> getData() {
+	public List<MemberImpl> getData() {
 		return data;
 	}
 }

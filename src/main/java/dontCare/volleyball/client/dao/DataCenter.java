@@ -9,7 +9,7 @@ import com.google.gwt.event.shared.SimpleEventBus;
 
 import dontCare.volleyball.client.dao.event.MemberEvent;
 import dontCare.volleyball.client.dao.event.MemberHandler;
-import dontCare.volleyball.shared.Member;
+import dontCare.volleyball.shared.MemberImpl;
 
 public class DataCenter {
 	public static abstract class DataEvent<H extends DataEventHandler> extends GwtEvent<H> {}
@@ -21,7 +21,7 @@ public class DataCenter {
 	}
 	
 	// ==== Member 區 ==== //
-	private static List<Member> memberList;
+	private static List<MemberImpl> memberList;
 	private static MemberDao memberDao = new MemberDao();
 
 	static {
@@ -41,7 +41,7 @@ public class DataCenter {
 		memberDao.fetch();
 	}
 	
-	public static List<Member> getPatientList() {
+	public static List<MemberImpl> getPatientList() {
 		return memberList;
 	}
 	// ======== //

@@ -1,5 +1,6 @@
 package dontCare.volleyball.shared;
 
+
 public class MemberImpl implements Member {
 	private String id;
 	private String number;

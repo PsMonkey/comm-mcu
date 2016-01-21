@@ -19,6 +19,7 @@ import dontCare.volleyball.client.dao.event.MemberEvent;
 import dontCare.volleyball.client.dao.event.MemberHandler;
 import dontCare.volleyball.client.ui.component.Avatar;
 import dontCare.volleyball.shared.Member;
+import dontCare.volleyball.shared.MemberImpl;
 
 public class PlayerViewer extends Composite {
 	interface PlayerViewerUiBinder extends UiBinder< Widget, PlayerViewer> {}
@@ -47,7 +48,7 @@ public class PlayerViewer extends Composite {
 		DataCenter.wantMember();
 	}
 
-	private void build(List<Member> data) {
+	private void build(List<MemberImpl> data) {
 		for (final Member member : data) {
 			final Avatar image = new Avatar();
 			image.setId(member.getId());

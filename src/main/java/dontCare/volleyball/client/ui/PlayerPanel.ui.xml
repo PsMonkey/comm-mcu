@@ -7,13 +7,17 @@
 	<ui:with field="listLD" type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData">
 		<ui:attributes width="1" height="1" />
 	</ui:with>
+	<ui:with field="verData" type="com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer.HorizontalLayoutData">
+		<ui:attributes height="30" />
+	</ui:with>
 	
 	<c:VerticalLayoutContainer>
-		<c:HorizontalLayoutContainer>
-			<b:TextButton ui:field="add" text="新增" />
+		<c:HorizontalLayoutContainer layoutData="{verData}">
+			<b:TextButton ui:field="add" text="新增"/>
 			<b:TextButton ui:field="export" text="匯出 JSON" />
 		</c:HorizontalLayoutContainer>
 		
 		<g:Grid ui:field="list" layoutData="{listLD}" />
+		<c:VerticalLayoutContainer ui:field="ver"></c:VerticalLayoutContainer>
 	</c:VerticalLayoutContainer>
 </ui:UiBinder> 

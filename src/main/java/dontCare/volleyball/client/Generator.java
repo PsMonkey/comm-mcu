@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import dontCare.volleyball.client.dao.MemberJson;
 import dontCare.volleyball.shared.Degree;
-import dontCare.volleyball.shared.Member;
 import dontCare.volleyball.shared.MemberImpl;
 import dontCare.volleyball.shared.Office;
 import dontCare.volleyball.shared.Role;
@@ -12,7 +11,7 @@ import dontCare.volleyball.shared.Role;
 //Delete 暫時的，趕快改成 online-editor 吧 Orz
 public class Generator {
 	public static String member() {
-		ArrayList<Member> list = new ArrayList<>();
+		ArrayList<MemberImpl> list = new ArrayList<>();
 		list.add(gen("5", "許濠麒", "小皮", 102,	"傳管", Role.outside, Office.captain));
 		list.add(gen("11", "謝孟峯", "水哥",	102, "廣電", Role.setter));
 		list.add(gen("8", "張如浩", "小浩", 102, "新聞", Role.middle));
@@ -37,11 +36,11 @@ public class Generator {
 		return MemberJson.marshall(list);
 	}
 	
-	private static Member gen(String number, String name, String nickname, int level, String department, Role role) {
+	private static MemberImpl gen(String number, String name, String nickname, int level, String department, Role role) {
 		return gen(number, name, nickname, level, department, role, null);
 	}
 	
-	private static Member gen(String number, String name, String nickname, int level, String department, Role role, Office office) {
+	private static MemberImpl gen(String number, String name, String nickname, int level, String department, Role role, Office office) {
 		MemberImpl member = new MemberImpl();
 		member.setId(UUID.uuid(8));
 		member.setNumber(number);
