@@ -28,6 +28,7 @@ import dontCare.volleyball.client.dao.event.MemberEvent;
 import dontCare.volleyball.client.dao.event.MemberHandler;
 import dontCare.volleyball.shared.Degree;
 import dontCare.volleyball.shared.Member;
+import dontCare.volleyball.shared.MemberImpl;
 import dontCare.volleyball.shared.Office;
 import dontCare.volleyball.shared.Role;
 
@@ -55,7 +56,6 @@ public class PlayerPanel extends Composite implements Editor<Member>{
 				} else {
 					PlayerEditor playerEditor = (PlayerEditor) ver.getWidget(0);
 					playerEditor.view(event.getSelectedItem());
-					add.setText("新增");
 				}
 			}
 		});
@@ -101,7 +101,7 @@ public class PlayerPanel extends Composite implements Editor<Member>{
 		return new ColumnModel<Member>(list);
 	}
 	
-	private void build(List<Member> data) {
+	private void build(List<MemberImpl> data) {
 		for (final Member member : data) {
 			list.getStore().add(member);
 		}
